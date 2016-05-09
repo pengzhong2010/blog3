@@ -11,8 +11,8 @@ func (t *Topic) TopicList(topics *[]Topic, q string) {
 	qs := o.QueryTable("topic")
 	if len(q) != 0 {
 		cond := orm.NewCondition()
-		cond1 := cond.And("name", q)
-		// cond2 := cond.AndCond(cond1).AndCond(cond.And("email", q).Or("name", q))
+		cond1 := cond.And("deleted", 0)
+		cond2 := cond.AndCond(cond1).AndCond(cond.And("name", q))
 		qs.SetCond(cond1).All(topics)
 		// o.QueryTable("user").Filter("deleted", 0).OrderBy("id").All(users)
 	} else {
@@ -36,19 +36,19 @@ func (c *Topic) TopicAdd() (bool, int) {
 	return res_b, res_id
 }
 
-func (c *Topic) TopicRead() {
+func (c *Topic) TopicRead() bool {
 	o := orm.NewOrm()
 	topic := Topic{Id: c.Id}
 	if rerr := o.Read(&topic); rerr != nil {
 		c.Id = 0
 		return false
 	}
-	// // o.QueryTable("Category").Filter("Id", c.Id).RelatedSel().One(c)
-	// o.Read(c)
-	// godump.Dump(c)
-	// if c.Image != nil {
-	// 	err := o.Read(c.Image)
-	// 	godump.Dump(err)
-	// }
+	// o.QueryTable("Category").Filter("Id", c.Id).RelatedSel().One(c)
+	o.Read(c)
+	godump.Dump(c)
+	if c.Image != nil {
+		err := o.Read(c.Image)
+		godump.Dump(err)
+	}
 
 }
