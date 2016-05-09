@@ -124,13 +124,13 @@ type LoginForm struct {
 }
 
 func (c *UserController) UserLogin() {
-	aa := c.Ctx.GetCookie("user")
+	// aa := c.Ctx.GetCookie("user")
 	bb := c.Ctx.Input.Session("user")
-	godump.Dump(aa)
+	// godump.Dump(aa)
 	godump.Dump("bb")
 	godump.Dump(bb)
-	aaa := c.Ctx.Input.URL()
-	godump.Dump(aaa)
+	// aaa := c.Ctx.Input.URL()
+	// godump.Dump(aaa)
 	beego.ReadFromRequest(&c.Controller)
 	c.Layout = "admin/layout.html"
 	c.TplName = "admin/login.html"
@@ -158,8 +158,14 @@ func (c *UserController) UserLoginDo() {
 		c.StopRun()
 	}
 	c.Ctx.Output.Session("user", u)
-	c.Ctx.SetCookie("user", string(u.Id), 3600, "/")
-	c.Ctx.Redirect(302, c.URLFor(".UserList"))
+	// c.Ctx.SetCookie("user", string(u.Id), 3600, "/")
+	redirect := c.Ctx.Input.Query("redirect")
+	if len(redirect) == 0 {
+		c.Ctx.Redirect(302, c.URLFor(".UserList"))
+	} else {
+		c.Ctx.Redirect(302, redirect)
+	}
+
 	c.StopRun()
 
 }

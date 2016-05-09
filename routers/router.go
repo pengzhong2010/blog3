@@ -12,7 +12,12 @@ var LoginCheck = func(ctx *context.Context) {
 	if user == nil {
 		url := ctx.Input.URL()
 		if url != "/admin/login" {
-			ctx.Redirect(302, "/admin/login")
+			if url != "/admin/logout" {
+				ctx.Redirect(302, "/admin/login"+"?redirect="+url)
+			} else {
+				ctx.Redirect(302, "/admin/login")
+			}
+
 		}
 	}
 }
@@ -36,16 +41,16 @@ func init() {
 			beego.NSRouter("/edit/:id([0-9]+)/img", &admin.CategoryController{}, "post:CategoryEditImg"),
 			// beego.NSRouter("/del/:id([0-9]+)", &admin.CategoryController{}, "post:CategoryDel"),
 		),
-		// beego.NSNamespace("/topic",
-		// 	beego.NSRouter("/list", &controllers.MainController{}, "get:Get"),
-		// 	beego.NSRouter("/add", &controllers.MainController{}, "get:Get;post:Get"),
-		// 	beego.NSRouter("/edit/:id", &controllers.MainController{}, "get:Get;post:Get"),
-		// 	beego.NSRouter("/del/:id", &controllers.MainController{}, "post:Get"),
-		// ),
+		beego.NSNamespace("/topic",
+			beego.NSRouter("/list", &admin.TopicController{}, "get:TopicList"),
+			beego.NSRouter("/add", &admin.TopicController{}, "get:TopicAdd;post:TopicAddDo"),
+			// beego.NSRouter("/edit/:id", &controllers.MainController{}, "get:Get;post:Get"),
+			// beego.NSRouter("/del/:id", &controllers.MainController{}, "post:Get"),
+		),
 		beego.NSRouter("/base", &controllers.MainController{}, "get:Get"),
 	)
 	beego.AddNamespace(ns)
 
-	// beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
+	beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
 
 }

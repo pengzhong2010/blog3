@@ -40,6 +40,7 @@ type Topic struct {
 	User     *User       `orm:"rel(fk);ondelete(do_nothing)"`
 	Category []*Category `orm:"rel(m2m);rel_table(topic_category);ondelete(do_nothing)"`
 	Entry    []*Entry    `orm:"reverse(many)"`
+	Image    []*Image    `orm:"rel(m2m);rel_table(topic_image);ondelete(do_nothing)"`
 
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
@@ -67,6 +68,7 @@ type Image struct {
 	Id       int
 	Url      string    `orm:"null;size(300)"`
 	Category *Category `orm:"reverse(one)"`
+	Topic    []*Topic  `orm:"reverse(many)"`
 
 	Deleted bool `orm:"default(false)"`
 }

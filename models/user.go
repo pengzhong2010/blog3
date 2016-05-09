@@ -19,11 +19,13 @@ func (u *User) UserList(users *[]User, q string) {
 		o.QueryTable("user").Filter("deleted", 0).OrderBy("id").All(users)
 	}
 }
-func (u *User) UserRead() {
+func (u *User) UserRead() bool {
 	o := orm.NewOrm()
 	if rerr := o.Read(u); rerr != nil {
 		u.Id = 0
+		return false
 	}
+	return true
 }
 func (u *User) UserAdd() (bool, int) {
 	res_b := false
