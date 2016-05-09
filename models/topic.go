@@ -13,7 +13,7 @@ func (t *Topic) TopicList(topics *[]Topic, q string) {
 		cond := orm.NewCondition()
 		cond1 := cond.And("deleted", 0)
 		cond2 := cond.AndCond(cond1).AndCond(cond.And("name", q))
-		qs.SetCond(cond1).All(topics)
+		qs.SetCond(cond2).All(topics)
 		// o.QueryTable("user").Filter("deleted", 0).OrderBy("id").All(users)
 	} else {
 		o.QueryTable("topic").OrderBy("id").All(topics)
@@ -36,7 +36,7 @@ func (c *Topic) TopicAdd() (bool, int) {
 	return res_b, res_id
 }
 
-func (c *Topic) TopicRead() bool {
+func (c *Topic) TopicRead(categorys *[]Category, images *[]Image) bool {
 	o := orm.NewOrm()
 	topic := Topic{Id: c.Id}
 	if rerr := o.Read(&topic); rerr != nil {
@@ -46,9 +46,9 @@ func (c *Topic) TopicRead() bool {
 	// o.QueryTable("Category").Filter("Id", c.Id).RelatedSel().One(c)
 	o.Read(c)
 	godump.Dump(c)
-	if c.Image != nil {
-		err := o.Read(c.Image)
-		godump.Dump(err)
-	}
-
+	_, cerr := o.QueryTable("Category").Filter("Topics__Topic__Id", c.Id).All(categorys)
+	godump.Dump(cerr)
+	_, ierr := o.QueryTable("Image").Filter("Topics__Topic__Id", c.Id).All(images)
+	godump.Dump(ierr)
+	return true
 }

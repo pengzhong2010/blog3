@@ -64,8 +64,12 @@ func (c *TopicController) TopicEdit() {
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
 	topic := models.Topic{Id: idint}
-	topic.TopicRead()
-	godump.Dump(topic)
+	var categorys []models.Category
+	var images []models.Image
+	b := topic.TopicRead(&categorys, &images)
+	godump.Dump(b)
+	c.StopRun()
+
 	// // godump.Dump(categoryimg)
 	// if category.Id == 0 {
 	// 	c.Ctx.Output.Body([]byte("not found"))
