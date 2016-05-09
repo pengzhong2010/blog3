@@ -35,3 +35,20 @@ func (c *Topic) TopicAdd() (bool, int) {
 
 	return res_b, res_id
 }
+
+func (c *Topic) TopicRead() {
+	o := orm.NewOrm()
+	topic := Topic{Id: c.Id}
+	if rerr := o.Read(&topic); rerr != nil {
+		c.Id = 0
+		return false
+	}
+	// // o.QueryTable("Category").Filter("Id", c.Id).RelatedSel().One(c)
+	// o.Read(c)
+	// godump.Dump(c)
+	// if c.Image != nil {
+	// 	err := o.Read(c.Image)
+	// 	godump.Dump(err)
+	// }
+
+}

@@ -1,0 +1,61 @@
+<div class="col-lg-8 col-lg-offset-2">
+    <div class="well bs-component">
+        <form class="form-horizontal" method="POST" action="">
+        {{.flash.notice}}
+            <fieldset>
+                <legend>Edit Topic</legend>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" placeholder="Name" name="name" value="{{.topic.Name}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="textArea" class="col-lg-2 control-label">Content</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" rows="3" id="textArea" name="content">{{.topic.Content}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        {{ if .topic }}
+            {{if .topic.Image }}
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Pic</label>
+                    <div class="col-lg-10">
+                        <img class="img-rounded" style="width: 140px;height: 140px" src="{{.category.Image.Url}}">
+                    </div>
+                </div>
+            </fieldset>
+            {{end}}
+            <fieldset>
+                <div class=".clearfix col-lg-12">
+                    <form enctype="multipart/form-data" method="post" action="/admin/category/edit/{{.category.Id}}/img">
+                        <fieldset>
+                            <legend>Category Image</legend>
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-lg-2 control-label">Name</label>
+                                <div class="col-lg-10">
+                                    <input type="file" class="form-control" name="img">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </fieldset>
+        {{end}}
+    </div>
+</div>

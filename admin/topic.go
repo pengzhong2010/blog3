@@ -60,22 +60,22 @@ func (c *TopicController) TopicAddDo() {
 	c.Ctx.Redirect(302, c.URLFor(".TopicList"))
 }
 
-// func (t *TopicController) TopicEdit() {
-// 	id := c.Ctx.Input.Param(":id")
-// 	idint, _ := strconv.Atoi(id)
-// 	category := models.Category{Id: idint}
-// 	category.CategoryRead()
-// 	godump.Dump(category)
-// 	// godump.Dump(categoryimg)
-// 	if category.Id == 0 {
-// 		c.Ctx.Output.Body([]byte("not found"))
-// 		c.StopRun()
-// 	}
-// 	beego.ReadFromRequest(&c.Controller)
-// 	c.Data["category"] = category
-// 	c.Layout = "admin/layout.html"
-// 	c.TplName = "admin/categoryadd.html"
-// }
+func (c *TopicController) TopicEdit() {
+	id := c.Ctx.Input.Param(":id")
+	idint, _ := strconv.Atoi(id)
+	topic := models.Topic{Id: idint}
+	topic.TopicRead()
+	godump.Dump(topic)
+	// // godump.Dump(categoryimg)
+	// if category.Id == 0 {
+	// 	c.Ctx.Output.Body([]byte("not found"))
+	// 	c.StopRun()
+	// }
+	// beego.ReadFromRequest(&c.Controller)
+	// c.Data["category"] = category
+	// c.Layout = "admin/layout.html"
+	// c.TplName = "admin/topicedit.html"
+}
 
 // func (t *TopicController) TopicEditDo() {
 // 	cf := CategoryForm{}
