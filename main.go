@@ -18,7 +18,7 @@ func init() {
 	godump.Dump(cc)
 
 	orm.RegisterDataBase("default", "mysql", "root:@/limitpic?charset=utf8")
-	orm.RunSyncdb("default", true, true)
+	orm.RunSyncdb("default", false, true)
 }
 
 func main() {

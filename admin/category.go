@@ -61,9 +61,9 @@ func (c *CategoryController) CategoryEdit() {
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
 	category := models.Category{Id: idint}
-	categoryimg := category.CategoryRead()
+	category.CategoryRead()
 	godump.Dump(category)
-	godump.Dump(categoryimg)
+	// godump.Dump(categoryimg)
 	if category.Id == 0 {
 		c.Ctx.Output.Body([]byte("not found"))
 		c.StopRun()
@@ -98,7 +98,6 @@ func (c *CategoryController) CategoryEditDo() {
 }
 
 func (c *CategoryController) CategoryEditImg() {
-
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
 	category := models.Category{Id: idint}
@@ -110,6 +109,7 @@ func (c *CategoryController) CategoryEditImg() {
 		c.Ctx.Redirect(302, c.URLFor(".CategoryList"))
 		c.StopRun()
 	}
+
 	f, _, err := c.GetFile("img")
 	defer f.Close()
 	if err != nil {
@@ -139,6 +139,7 @@ func (c *CategoryController) CategoryEditImg() {
 	c.SaveToFile("img", imgdir)
 	image.Url = "/static/img/" + strconv.Itoa(image.Id) + ".jpg"
 	b2 := image.ImageUpdate()
+
 	if !b2 {
 		flash := beego.NewFlash()
 		flash.Notice("img update error")
@@ -146,17 +147,12 @@ func (c *CategoryController) CategoryEditImg() {
 		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
 		c.StopRun()
 	}
-
-	categoryimg := models.CategoryImage{Category: &category, Image: &image}
-	b3 := categoryimg.Edit()
-	godump.Dump(b3)
-	if b3 {
-		flash := beego.NewFlash()
-		flash.Notice("success")
-		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
-		c.StopRun()
-	} else {
+	// c.StopRun()
+	category.Image = &image
+	b3 := category.CategoryEdit()
+	// godump.Dump(b3)
+	// c.StopRun()
+	if !b3 {
 		flash := beego.NewFlash()
 		flash.Notice("edit faild")
 		flash.Store(&c.Controller)
@@ -164,4 +160,9 @@ func (c *CategoryController) CategoryEditImg() {
 		c.StopRun()
 	}
 
+	flash := beego.NewFlash()
+	flash.Notice("success")
+	flash.Store(&c.Controller)
+	c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+	c.StopRun()
 }

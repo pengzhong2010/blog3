@@ -25,20 +25,3 @@ func (i *Image) ImageUpdate() bool {
 
 	return false
 }
-
-func (i *CategoryImage) Edit() bool {
-	o := orm.NewOrm()
-	ci := CategoryImage{Category: i.Category}
-	if rerr := o.Read(&ci, "Category"); rerr == nil {
-		ci.Image = i.Image
-		if _, uerr := o.Update(&ci); uerr == nil {
-			return true
-		}
-	} else {
-		if _, ierr := o.Insert(i); ierr == nil {
-			return true
-		}
-	}
-
-	return false
-}

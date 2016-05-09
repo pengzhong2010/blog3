@@ -71,12 +71,6 @@ type Image struct {
 	Deleted bool `orm:"default(false)"`
 }
 
-// type CategoryImage struct {
-// 	Id       int
-// 	Category *Category `orm:"rel(one);on_delete(do_nothing)"`
-// 	Image    *Image    `orm:"rel(one);on_delete(do_nothing)"`
-// }
-
 func init() {
-	orm.RegisterModel(new(User), new(Category), new(Topic), new(Entry), new(Image), new(CategoryImage))
+	orm.RegisterModel(new(User), new(Category), new(Topic), new(Entry), new(Image))
 }

@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	// "github.com/favframework/debug"
+	"github.com/favframework/debug"
 	// "strconv"
 )
 
@@ -18,20 +18,25 @@ func (c *Category) CategoryList(categorys *[]Category, q string) {
 	} else {
 		o.QueryTable("category").OrderBy("id").All(categorys)
 	}
+	godump.Dump(categorys)
 }
 
-func (c *Category) CategoryRead() *CategoryImage {
+func (c *Category) CategoryRead() {
 	o := orm.NewOrm()
-	if rerr := o.Read(c); rerr != nil {
+	category := Category{Id: c.Id}
+	if rerr := o.Read(&category); rerr != nil {
 		c.Id = 0
 	} else {
-		ci := &CategoryImage{}
-		err := o.QueryTable("CategoryImage").Filter("Category__Id", c.Id).One(ci)
-		if err == nil {
-			return ci
+		// o.QueryTable("Category").Filter("Id", c.Id).RelatedSel().One(c)
+		o.Read(c)
+		godump.Dump(c)
+		if c.Image != nil {
+			err := o.Read(c.Image)
+			godump.Dump(err)
 		}
+
 	}
-	return nil
+
 }
 
 func (c *Category) CategoryAdd() (bool, int) {
@@ -52,8 +57,7 @@ func (c *Category) CategoryEdit() bool {
 	o := orm.NewOrm()
 	category := Category{Id: c.Id}
 	if rerr := o.Read(&category); rerr == nil {
-		category.Name = c.Name
-		if _, uerr := o.Update(&category); uerr == nil {
+		if _, uerr := o.Update(c); uerr == nil {
 			res_b = true
 		}
 	}
