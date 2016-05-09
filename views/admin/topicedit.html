@@ -17,6 +17,19 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-lg-2 control-label">Category</label>
+                    <div class="col-lg-10">
+                        {{range .all_categorys}}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="categorys[]" value="{{.Id}}" checked="">
+                                    Option one is this
+                                </label>
+                            </div>
+                        {{end}}
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -24,38 +37,39 @@
                 </div>
             </fieldset>
         </form>
-        {{ if .topic }}
-            {{if .topic.Image }}
-            <fieldset>
-                <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Pic</label>
-                    <div class="col-lg-10">
-                        <img class="img-rounded" style="width: 140px;height: 140px" src="{{.category.Image.Url}}">
-                    </div>
+        
+        
+        {{range .images}}
+        <fieldset>
+            <div class="form-group">
+                <label for="inputPassword" class="col-lg-2 control-label">Pic</label>
+                <div class="col-lg-10">
+                    <img class="img-rounded" style="width: 140px;height: 140px" src="{{.Url}}">
                 </div>
-            </fieldset>
-            {{end}}
-            <fieldset>
-                <div class=".clearfix col-lg-12">
-                    <form enctype="multipart/form-data" method="post" action="/admin/category/edit/{{.category.Id}}/img">
-                        <fieldset>
-                            <legend>Category Image</legend>
-                            <div class="form-group">
-                                <label for="inputPassword" class="col-lg-2 control-label">Name</label>
-                                <div class="col-lg-10">
-                                    <input type="file" class="form-control" name="img">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </fieldset>
+            </div>
+        </fieldset>
         {{end}}
+        <fieldset>
+            <div class=".clearfix col-lg-12">
+                <form enctype="multipart/form-data" method="post" action="/admin/category/edit/{{.category.Id}}/img">
+                    <fieldset>
+                        <legend>Category Image</legend>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-10">
+                                <input type="file" class="form-control" name="img">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </fieldset>
+        
     </div>
 </div>

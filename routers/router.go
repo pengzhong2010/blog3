@@ -44,8 +44,8 @@ func init() {
 		beego.NSNamespace("/topic",
 			beego.NSRouter("/list", &admin.TopicController{}, "get:TopicList"),
 			beego.NSRouter("/add", &admin.TopicController{}, "get:TopicAdd;post:TopicAddDo"),
-			// beego.NSRouter("/edit/:id", &controllers.MainController{}, "get:Get;post:Get"),
-			// beego.NSRouter("/del/:id", &controllers.MainController{}, "post:Get"),
+			beego.NSRouter("/edit/:id", &admin.TopicController{}, "get:TopicEdit;post:TopicEdit"),
+			// beego.NSRouter("/del/:id", &admin.TopicController{}, "post:Get"),
 		),
 		beego.NSRouter("/base", &controllers.MainController{}, "get:Get"),
 	)
