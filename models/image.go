@@ -25,3 +25,30 @@ func (i *Image) ImageUpdate() bool {
 
 	return false
 }
+
+func (i *Image) ImageRead() bool {
+	o := orm.NewOrm()
+	img := Image{Id: i.Id}
+	if rerr := o.Read(&img); rerr != nil {
+		i.Id = 0
+		return false
+	}
+
+	o.Read(i)
+
+	return true
+}
+
+func (i *Image) ImageDel() bool {
+	o := orm.NewOrm()
+	img := Image{Id: i.Id}
+	if o.Read(&img) == nil {
+		o.Read(i)
+		i.Deleted = true
+		if _, err := o.Update(i); err == nil {
+			return true
+		}
+	}
+
+	return false
+}

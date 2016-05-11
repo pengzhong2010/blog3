@@ -18,7 +18,16 @@ func (c *Category) CategoryList(categorys *[]Category, q string) {
 	} else {
 		o.QueryTable("category").OrderBy("id").All(categorys)
 	}
-	godump.Dump(categorys)
+	// godump.Dump(categorys)
+}
+
+func AllCategorys(cs *[]orm.Params) bool {
+	o := orm.NewOrm()
+	_, err := o.QueryTable("Category").Values(cs)
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func (c *Category) CategoryRead() {
@@ -57,6 +66,7 @@ func (c *Category) CategoryEdit() bool {
 	o := orm.NewOrm()
 	category := Category{Id: c.Id}
 	if rerr := o.Read(&category); rerr == nil {
+		category.Image.ImageDel()
 		if _, uerr := o.Update(c); uerr == nil {
 			res_b = true
 		}
