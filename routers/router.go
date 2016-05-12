@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"photolimit/admin"
+	"photolimit/api"
 	"photolimit/controllers"
 )
 
@@ -54,5 +55,17 @@ func init() {
 	beego.AddNamespace(ns)
 
 	beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
+
+	ns1 := beego.NewNamespace("/api",
+		// beego.NSRouter("/login", &admin.UserController{}, "get:UserLogin;post:UserLoginDo"),
+		// beego.NSRouter("/logout", &admin.UserController{}, "get:UserLogout"),
+		beego.NSNamespace("/topic",
+			beego.NSRouter("/recent", &api.WebController{}, "get:GetRecent"),
+			// beego.NSRouter("/add", &admin.UserController{}, "get:UserAdd;post:UserAddDo"),
+			// beego.NSRouter("/edit/:id([0-9]+)", &admin.UserController{}, "get:UserEdit;post:UserEditDo"),
+			// beego.NSRouter("/del/:id([0-9]+)", &admin.UserController{}, "get:UserDel"),
+		),
+	)
+	beego.AddNamespace(ns1)
 
 }
