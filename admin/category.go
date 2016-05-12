@@ -148,7 +148,9 @@ func (c *CategoryController) CategoryEditImg() {
 		c.StopRun()
 	}
 	// c.StopRun()
+
 	category.Image = &image
+
 	b3 := category.CategoryEdit()
 	// godump.Dump(b3)
 	// c.StopRun()

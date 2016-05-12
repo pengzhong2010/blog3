@@ -42,7 +42,7 @@ func (i *Image) ImageRead() bool {
 func (i *Image) ImageDel() bool {
 	o := orm.NewOrm()
 	img := Image{Id: i.Id}
-	if o.Read(&img) == nil {
+	if rerr := o.Read(&img); rerr == nil {
 		o.Read(i)
 		i.Deleted = true
 		if _, err := o.Update(i); err == nil {

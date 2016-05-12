@@ -66,7 +66,12 @@ func (c *Category) CategoryEdit() bool {
 	o := orm.NewOrm()
 	category := Category{Id: c.Id}
 	if rerr := o.Read(&category); rerr == nil {
-		category.Image.ImageDel()
+		if category.Image != nil {
+			b := category.Image.ImageDel()
+			if !b {
+				return res_b
+			}
+		}
 		if _, uerr := o.Update(c); uerr == nil {
 			res_b = true
 		}
