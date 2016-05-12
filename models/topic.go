@@ -1,7 +1,7 @@
 package models
 
 import (
-	// "github.com/astaxie/beego"
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/favframework/debug"
 	// "strconv"
@@ -175,18 +175,15 @@ func (c *Topic) TopicDel() bool {
 	return false
 }
 
-func GetRecent() {
-	// recent_row, _ := beego.AppConfig.Int("RecentRow")
+func GetRecent() []*Topic {
+	recent_row, _ := beego.AppConfig.Int("RecentRow")
 	o := orm.NewOrm()
-	var img []*Image
-	o.QueryTable("image").Filter("Topics__Topic__Name", "123123").All(&img)
-	godump.Dump(img)
-	// var topics []*Topic
-	// o.QueryTable("Topic").Limit(recent_row).All(&topics)
-	// godump.Dump(topics)
-	// for _, v := range topics {
-	// 	o.LoadRelated(v, "Images")
-	// }
-
+	var topics []*Topic
+	o.QueryTable("Topic").Limit(recent_row).All(&topics)
+	godump.Dump(topics)
+	for _, v := range topics {
+		o.LoadRelated(v, "Images")
+	}
+	return topics
 	// godump.Dump(topics)
 }

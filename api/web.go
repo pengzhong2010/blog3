@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/favframework/debug"
 	"photolimit/models"
 )
 
@@ -10,7 +11,10 @@ type WebController struct {
 }
 
 func (c *WebController) GetRecent() {
-	models.GetRecent()
+	topics := models.GetRecent()
+	godump.Dump(topics)
+	c.Data["json"] = map[string]interface{}{"recent": topics}
+	c.ServeJSON()
 	c.StopRun()
 }
 

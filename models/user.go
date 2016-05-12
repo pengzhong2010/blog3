@@ -82,3 +82,19 @@ func (u *User) AdminLogin() bool {
 	// godump.Dump(res_b)
 	return res_b
 }
+
+func (u *User) WebLogin() bool {
+	// godump.Dump(u)
+	res_b := false
+	user := User{Email: u.Email, Pwd: u.Pwd}
+	o := orm.NewOrm()
+	o.QueryTable("user").Filter("Email", u.Email).Filter("deleted", 0).One(u)
+	if u.Id != 0 {
+		if user.Pwd == u.Pwd {
+			res_b = true
+		}
+	}
+	// godump.Dump(u)
+	// godump.Dump(res_b)
+	return res_b
+}
