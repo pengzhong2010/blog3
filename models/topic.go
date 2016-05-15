@@ -8,6 +8,30 @@ import (
 	"photolimit/common"
 )
 
+func GetTopics(cs *[]*Topic, q string) {
+	o := orm.NewOrm()
+	qs := o.QueryTable("topic")
+	if len(q) != 0 {
+		cond := orm.NewCondition()
+		// cond1 := cond.And("deleted", 0)
+		cond2 := cond.AndCond(cond.And("name", q))
+		qs.SetCond(cond2).All(cs)
+		// o.QueryTable("user").Filter("deleted", 0).OrderBy("id").All(users)
+	} else {
+		o.QueryTable("topic").Filter("deleted", 0).Limit(20).OrderBy("-created").All(cs)
+
+	}
+	for _, v := range *cs {
+		o.LoadRelated(v, "Images")
+		o.LoadRelated(v, "User")
+		v.User.Email = ""
+		v.User.Pwd = ""
+		v.User.AdminRole = false
+		v.User.Deleted = false
+	}
+
+}
+
 func (t *Topic) TopicList(topics *[]Topic, q string) {
 	o := orm.NewOrm()
 	qs := o.QueryTable("topic")
@@ -50,6 +74,7 @@ func (c *Topic) TopicRead() bool {
 	if rerr != nil {
 		return false
 	}
+
 	// godump.Dump(c)
 	// o.QueryTable("Category").Filter("Topics__Topic__Id", c.Id).All(categorys)
 	// godump.Dump(cerr)
@@ -179,11 +204,28 @@ func GetRecent() []*Topic {
 	recent_row, _ := beego.AppConfig.Int("RecentRow")
 	o := orm.NewOrm()
 	var topics []*Topic
-	o.QueryTable("Topic").Limit(recent_row).All(&topics)
-	godump.Dump(topics)
+	o.QueryTable("Topic").Filter("deleted", 0).Limit(recent_row).All(&topics)
+	// godump.Dump(topics)
 	for _, v := range topics {
 		o.LoadRelated(v, "Images")
 	}
 	return topics
 	// godump.Dump(topics)
+}
+
+func GetTopic(t *Topic) bool {
+	o := orm.NewOrm()
+	if rerr := o.Read(t); rerr != nil {
+		return false
+	}
+	if t.Deleted == true {
+		return false
+	}
+	o.LoadRelated(t, "Images")
+	o.LoadRelated(t, "User")
+	t.User.Email = ""
+	t.User.Pwd = ""
+	t.User.AdminRole = false
+	t.User.Deleted = false
+	return true
 }

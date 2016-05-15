@@ -13,106 +13,108 @@ import (
 	// "strings"
 )
 
-type CategoryController struct {
+type BannerController struct {
 	beego.Controller
 }
 
-func (c *CategoryController) CategoryList() {
+func (c *BannerController) BannerList() {
 	q := c.Ctx.Input.Query("q")
-	categorys := []models.Category{}
-	category := models.Category{}
-	category.CategoryList(&categorys, q)
-	// godump.Dump(categorys)
-	c.Data["category"] = categorys
-	c.Data["Title"] = "CategoryList"
+	banners := []*models.Banner{}
+
+	models.GetBanners(&banners, q)
+	godump.Dump(banners)
+	c.Data["banners"] = banners
+	c.Data["Title"] = "BannerList"
 	c.Layout = "admin/layout.html"
-	c.TplName = "admin/categorylist.html"
+	c.TplName = "admin/bannerlist.html"
 
 }
 
-type CategoryForm struct {
+type BannerForm struct {
 	Name string `form:"name" valid:"Required;MaxSize(60)"`
+	Url  string `form:"url" valid:"MaxSize(300)"`
 }
 
-func (c *CategoryController) CategoryAdd() {
+func (c *BannerController) BannerAdd() {
 	c.Layout = "admin/layout.html"
-	c.TplName = "admin/categoryadd.html"
+	c.TplName = "admin/banneradd.html"
 }
 
-func (c *CategoryController) CategoryAddDo() {
-	cf := CategoryForm{}
-	c.ParseForm(&cf)
+func (c *BannerController) BannerAddDo() {
+	bf := BannerForm{}
+	c.ParseForm(&bf)
 	valid := validation.Validation{}
-	b, _ := valid.Valid(&cf)
+	b, _ := valid.Valid(&bf)
 	if !b {
 		c.Ctx.Output.Body([]byte("valid error"))
 		c.StopRun()
 	}
-	categorydb := models.Category{Name: cf.Name}
-	res_b, _ := categorydb.CategoryAdd()
+	bannerdb := models.Banner{Name: bf.Name, Url: bf.Url}
+	res_b, _ := bannerdb.BannerAdd()
 	if !res_b {
 		c.Ctx.Output.Body([]byte("name exist"))
 		c.StopRun()
 	}
-	c.Ctx.Redirect(302, c.URLFor(".CategoryList"))
+	c.Ctx.Redirect(302, c.URLFor(".BannerList"))
 }
 
-func (c *CategoryController) CategoryEdit() {
+func (c *BannerController) BannerEdit() {
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
-	category := models.Category{Id: idint}
-	category.CategoryRead()
-	godump.Dump(category)
-	// godump.Dump(categoryimg)
-	if category.Id == 0 {
+	banner := models.Banner{Id: idint}
+	banner.BannerRead()
+
+	godump.Dump(banner)
+	if banner.Id == 0 {
 		c.Ctx.Output.Body([]byte("not found"))
 		c.StopRun()
 	}
 	beego.ReadFromRequest(&c.Controller)
-	c.Data["category"] = category
+	c.Data["banner"] = banner
 	c.Layout = "admin/layout.html"
-	c.TplName = "admin/categoryadd.html"
+	c.TplName = "admin/banneredit.html"
 }
 
-func (c *CategoryController) CategoryEditDo() {
-	cf := CategoryForm{}
-	c.ParseForm(&cf)
-	godump.Dump(cf)
+func (c *BannerController) BannerEditDo() {
+	bf := BannerForm{}
+	c.ParseForm(&bf)
+	godump.Dump(bf)
 
 	valid := validation.Validation{}
-	b, _ := valid.Valid(&cf)
+	b, _ := valid.Valid(&bf)
 	if !b {
 		c.Ctx.Output.Body([]byte("valid error"))
 		c.StopRun()
 	}
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
-	cm := models.Category{Id: idint}
-	b1 := cm.CategoryRead()
+	bm := models.Banner{Id: idint}
+	b1 := bm.BannerRead()
 	if !b1 {
-		c.Ctx.Output.Body([]byte("category not exist"))
+		c.Ctx.Output.Body([]byte("banner not exist"))
 		c.StopRun()
 	}
-	cm.Name = cf.Name
-	res_b := cm.CategoryEdit()
+	bm.Name = bf.Name
+	bm.Url = bf.Url
+	res_b := bm.BannerEdit()
 	if !res_b {
 		c.Ctx.Output.Body([]byte("error"))
 		c.StopRun()
 	}
-	c.Ctx.Redirect(302, c.URLFor(".CategoryList"))
+	c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 
 }
 
-func (c *CategoryController) CategoryEditImg() {
+func (c *BannerController) BannerEditImg() {
 	id := c.Ctx.Input.Param(":id")
 	idint, _ := strconv.Atoi(id)
-	category := models.Category{Id: idint}
-	category.CategoryRead()
-	if category.Id == 0 {
+	banner := models.Banner{Id: idint}
+	banner.BannerRead()
+	if banner.Id == 0 {
 		flash := beego.NewFlash()
 		flash.Notice("category not match")
 		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryList"))
+		c.Ctx.Redirect(302, c.URLFor(".BannerList"))
 		c.StopRun()
 	}
 
@@ -122,7 +124,7 @@ func (c *CategoryController) CategoryEditImg() {
 		flash := beego.NewFlash()
 		flash.Notice("empty img")
 		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+		c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 		c.StopRun()
 	}
 
@@ -137,7 +139,7 @@ func (c *CategoryController) CategoryEditImg() {
 		flash := beego.NewFlash()
 		flash.Notice("img create error")
 		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+		c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 		c.StopRun()
 	}
 
@@ -150,27 +152,35 @@ func (c *CategoryController) CategoryEditImg() {
 		flash := beego.NewFlash()
 		flash.Notice("img update error")
 		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+		c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 		c.StopRun()
 	}
 	// c.StopRun()
 
-	category.Image = &image
-
-	b3 := category.CategoryEditImg()
-	// godump.Dump(b3)
+	banner.Image = &image
+	godump.Dump(banner)
+	b3 := banner.BannerEditImg()
+	godump.Dump(banner)
 	// c.StopRun()
 	if !b3 {
 		flash := beego.NewFlash()
 		flash.Notice("edit faild")
 		flash.Store(&c.Controller)
-		c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+		c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 		c.StopRun()
 	}
 
 	flash := beego.NewFlash()
 	flash.Notice("success")
 	flash.Store(&c.Controller)
-	c.Ctx.Redirect(302, c.URLFor(".CategoryEdit", ":id", id))
+	c.Ctx.Redirect(302, c.URLFor(".BannerEdit", ":id", id))
 	c.StopRun()
+}
+
+func (c *BannerController) BannerDel() {
+	id := c.Ctx.Input.Param(":id")
+	idint, _ := strconv.Atoi(id)
+	banner := models.Banner{Id: idint}
+	banner.BannerDel()
+	c.Ctx.Redirect(302, c.URLFor(".BannerList"))
 }

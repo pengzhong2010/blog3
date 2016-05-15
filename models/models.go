@@ -69,10 +69,19 @@ type Image struct {
 	Url      string    `orm:"null;size(300)"`
 	Category *Category `orm:"reverse(one)"`
 	Topics   []*Topic  `orm:"reverse(many)"`
+	Banner   *Banner   `orm:"reverse(one)"`
 
 	Deleted bool `orm:"default(false)"`
 }
 
+type Banner struct {
+	Id      int
+	Name    string
+	Url     string `orm:"null;size(300)"`
+	Image   *Image `orm:"null;rel(one);on_delete(do_nothing)"`
+	Deleted bool   `orm:"default(false)"`
+}
+
 func init() {
-	orm.RegisterModel(new(User), new(Category), new(Topic), new(Entry), new(Image))
+	orm.RegisterModel(new(User), new(Category), new(Topic), new(Entry), new(Image), new(Banner))
 }

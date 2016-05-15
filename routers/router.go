@@ -6,6 +6,7 @@ import (
 	"photolimit/admin"
 	"photolimit/api"
 	"photolimit/controllers"
+	"photolimit/web"
 )
 
 var LoginCheck = func(ctx *context.Context) {
@@ -22,9 +23,16 @@ var LoginCheck = func(ctx *context.Context) {
 		}
 	}
 }
+var AccessControllAllow = func(ctx *context.Context) {
+	ctx.Output.Header("Access-Control-Allow-Origin", "*")
+}
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/home", &web.HtmlController{}, "get:Home")
+	beego.Router("/category", &web.HtmlController{}, "get:Category")
+	beego.Router("/blog", &web.HtmlController{}, "get:Blog")
+	beego.Router("/topic/:id([1-9][0-9]*", &web.HtmlController{}, "get:Topic")
 
 	ns := beego.NewNamespace("/admin",
 		beego.NSRouter("/login", &admin.UserController{}, "get:UserLogin;post:UserLoginDo"),
@@ -34,6 +42,13 @@ func init() {
 			beego.NSRouter("/add", &admin.UserController{}, "get:UserAdd;post:UserAddDo"),
 			beego.NSRouter("/edit/:id([0-9]+)", &admin.UserController{}, "get:UserEdit;post:UserEditDo"),
 			beego.NSRouter("/del/:id([0-9]+)", &admin.UserController{}, "get:UserDel"),
+		),
+		beego.NSNamespace("/banner",
+			beego.NSRouter("/list", &admin.BannerController{}, "get:BannerList"),
+			beego.NSRouter("/add", &admin.BannerController{}, "get:BannerAdd;post:BannerAddDo"),
+			beego.NSRouter("/edit/:id([0-9]+)", &admin.BannerController{}, "get:BannerEdit;post:BannerEditDo"),
+			beego.NSRouter("/edit/:id([0-9]+)/img", &admin.BannerController{}, "post:BannerEditImg"),
+			beego.NSRouter("/del/:id([0-9]+)", &admin.BannerController{}, "get:BannerDel"),
 		),
 		beego.NSNamespace("/category",
 			beego.NSRouter("/list", &admin.CategoryController{}, "get:CategoryList"),
@@ -57,15 +72,17 @@ func init() {
 	beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
 
 	ns1 := beego.NewNamespace("/api",
+		beego.NSRouter("/banner", &api.WebController{}, "get:GetBanner"),
+		beego.NSRouter("/category", &api.WebController{}, "get:GetCategory"),
+		beego.NSRouter("/blog", &api.WebController{}, "get:GetBlog"),
+		beego.NSRouter("/recent", &api.WebController{}, "get:GetRecent"),
+		beego.NSRouter("/topic/:id([1-9][0-9]*)", &api.WebController{}, "get:GetTopic"),
 		// beego.NSRouter("/login", &admin.UserController{}, "get:UserLogin;post:UserLoginDo"),
 		// beego.NSRouter("/logout", &admin.UserController{}, "get:UserLogout"),
-		beego.NSNamespace("/topic",
-			beego.NSRouter("/recent", &api.WebController{}, "get:GetRecent"),
-			// beego.NSRouter("/add", &admin.UserController{}, "get:UserAdd;post:UserAddDo"),
-			// beego.NSRouter("/edit/:id([0-9]+)", &admin.UserController{}, "get:UserEdit;post:UserEditDo"),
-			// beego.NSRouter("/del/:id([0-9]+)", &admin.UserController{}, "get:UserDel"),
-		),
+
 	)
 	beego.AddNamespace(ns1)
+
+	beego.InsertFilter("/api/*", beego.BeforeExec, AccessControllAllow)
 
 }

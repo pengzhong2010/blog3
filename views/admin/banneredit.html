@@ -1,0 +1,63 @@
+<div class="col-lg-8 col-lg-offset-2">
+    <div class="well bs-component">
+        <form class="form-horizontal" method="POST" action="">
+        {{.flash.notice}}
+            <fieldset>
+                <legend>Edit Banner</legend>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" placeholder="Name" name="name" value="{{.banner.Name}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Url</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" placeholder="Url" name="url" value="{{.banner.Url}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        
+        {{if .banner.Image}}
+        <div class="form-group">
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Pic</label>
+                    <div class="col-lg-7">
+                        <img class="img-rounded" style="width: 400px" src="{{.banner.Image.Url}}">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        {{end}}
+        <fieldset>
+            <div class=".clearfix col-lg-12">
+                <form enctype="multipart/form-data" method="post" action="/admin/banner/edit/{{.banner.Id}}/img">
+                    <fieldset>
+                        <legend>Banner Image</legend>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-10">
+                                <input type="file" class="form-control" name="img">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </fieldset>
+        
+    </div>
+</div>
