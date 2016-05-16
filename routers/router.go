@@ -70,7 +70,7 @@ func init() {
 	)
 	beego.AddNamespace(ns)
 
-	// beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
+	beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
 
 	ns1 := beego.NewNamespace("/api",
 		beego.NSRouter("/banner", &api.WebController{}, "get:GetBanner"),
