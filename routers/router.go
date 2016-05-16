@@ -28,7 +28,7 @@ var AccessControllAllow = func(ctx *context.Context) {
 }
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	beego.Router("/", &web.HtmlController{}, "get:Home")
 	beego.Router("/home", &web.HtmlController{}, "get:Home")
 	beego.Router("/category", &web.HtmlController{}, "get:Category")
 	beego.Router("/blog", &web.HtmlController{}, "get:Blog")
