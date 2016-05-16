@@ -136,7 +136,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 						// console.log(data.banners.length)
 						banners_str="";
 						for(i=0;i<data.banners.length;i++){
-							banners_str+='<li><img src="'+data.banners[i].Image.Url+'" width="1170" height="450" alt="'+data.banners[i].Name+'" /></li>'
+							banners_str+='<li><a href="'+data.banners[i].Url+'"><img src="'+data.banners[i].Image.Url+'" width="1170" height="450" alt="'+data.banners[i].Name+'" /></a></li>'
 						}
 						// console.log(banners_str)
 						jQuery("#banners").html(banners_str)
@@ -197,13 +197,13 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 										console.log(data.recent.length)
 										str="";
 										for(i=0;i<data.recent.length;i++){
-											if(!data.recent[i].Images){
+											if(data.recent[i].Images.length==0){
 												continue;
 											} 
 											if(i%2==0){
 												str+='<div class="col-md-6 col-sm-6 clearclass0"><article id="post-464" class="post-464 post type-post status-publish format-standard has-post-thumbnail hentry category-photos" itemscope="" itemtype="http://schema.org/BlogPosting"><div class="rowtight"><div class="tcol-md-5 tcol-sm-12 tcol-ss-12"><div class="imghoverclass"> '
-														+'<a href="" title="Basic Image Gallery Post">' 
-															+'<img src="'+data.recent[i].Images[0].Url+'" width="270" height="270" srcset="http://themes.kadencethemes.com/virtue/wp-content/uploads/2015/04/photo-1424746219973-8fe3bd07d8e3-150x150.jpg 150w, http://themes.kadencethemes.com/virtue/wp-content/uploads/2015/04/photo-1424746219973-8fe3bd07d8e3-270x270.jpg 270w, http://themes.kadencethemes.com/virtue/wp-content/uploads/2015/04/photo-1424746219973-8fe3bd07d8e3-270x270@2x.jpg 540w" sizes="(max-width: 270px) 100vw, 270px"	alt="Basic Image Gallery Post" class="iconhover" style="display:block;"> '
+														+'<a href="/topic/'+data.recent[i].Id+'" title="Basic Image Gallery Post">' 
+															+'<img src="'+data.recent[i].Images[0].Url+'" width="270" height="270" srcset="'+data.recent[i].Images[0].Url+' 150w, '+data.recent[i].Images[0].Url+' 270w, '+data.recent[i].Images[0].Url+' 540w" sizes="(max-width: 270px) 100vw, 270px"	alt="Basic Image Gallery Post" class="iconhover" style="display:block;"> '
 														+'</a></div></div><div class="tcol-md-7 tcol-sm-12 tcol-ss-12 postcontent"><div class="postmeta updated color_gray"><div class="postdate bg-lightgray headerfont" itemprop="datePublished"> '
 															+'<span class="postday">'+data.recent[i].c_d+'</span> '+data.recent[i].c_m_y+'</div>'
 													+'</div><header class="home_blog_title"> '
@@ -211,12 +211,12 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 														+'</a><div class="subhead color_gray"> <span class="postauthortop author vcard" data-toggle="tooltip" data-placement="top" data-original-title="Benjamin Ritner"> <span itemprop="author" class="kt_hidden">'
 																	+'<a href="http://themes.kadencethemes.com/virtue/author/britner/" class="fn" rel="author">Benjamin Ritner</a>'
 																+'</span><i class="icon-user"></i> </span> <span class="kad-hidepostauthortop"> | </span> <span class="postedintop" data-toggle="tooltip" data-placement="top" data-original-title="Photos&nbsp;"><i class="icon-folder-open"></i></span><span class="kad-hidepostedin">|</span> <span class="postcommentscount" data-toggle="tooltip" data-placement="top" data-original-title="0"> <i class="icon-comments-alt"></i> </span></div> </header><div class="entry-content">'
-														+'<p>'+data.recent[i].Content+'... <a href="">READ MORE</a></p>'
+														+'<p>'+data.recent[i].Content+'... <a href="/topic/'+data.recent[i].Id+'">READ MORE</a></p>'
 													+'</div><footer> </footer></div></div> </article></div>';
 											}else{
 												str+='<div class="col-md-6 col-sm-6 clearclass1"> <article id="post-155" class="post-155 post type-post status-publish format-standard has-post-thumbnail hentry category-photos tag-adventure tag-photos tag-surfing" itemscope="" itemtype="http://schema.org/BlogPosting"><div class="rowtight"><div class="tcol-md-5 tcol-sm-12 tcol-ss-12"><div class="imghoverclass"> '
-														+'<a href="" title=""> '
-															+'<img src="'+data.recent[i].Images[0].Url+'" width="270" height="270" srcset="http://themes.kadencethemes.com/virtue/wp-content/uploads/2013/07/ocean_02-150x150.jpg 150w, http://themes.kadencethemes.com/virtue/wp-content/uploads/2013/07/ocean_02-270x270.jpg 270w, http://themes.kadencethemes.com/virtue/wp-content/uploads/2013/07/ocean_02-270x270@2x.jpg 540w" sizes="(max-width: 270px) 100vw, 270px"			                           			alt="" class="iconhover" style="display:block;"> '
+														+'<a href="/topic/'+data.recent[i].Id+'" title=""> '
+															+'<img src="'+data.recent[i].Images[0].Url+'" width="270" height="270" srcset="'+data.recent[i].Images[0].Url+' 150w, '+data.recent[i].Images[0].Url+' 270w, '+data.recent[i].Images[0].Url+' 540w" sizes="(max-width: 270px) 100vw, 270px"			                           			alt="" class="iconhover" style="display:block;"> '
 														+'</a></div></div><div class="tcol-md-7 tcol-sm-12 tcol-ss-12 postcontent"><div class="postmeta updated color_gray"><div class="postdate bg-lightgray headerfont" itemprop="datePublished"> '
 															+'<span class="postday">'+data.recent[i].c_d+'</span> '+data.recent[i].c_m_y+'</div>'
 													+'</div> <header class="home_blog_title"> '
@@ -224,7 +224,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 														+'</a><div class="subhead color_gray"> <span class="postauthortop author vcard" data-toggle="tooltip" data-placement="top" data-original-title="Benjamin Ritner"> <span itemprop="author" class="kt_hidden">'
 																	+'<a href="http://themes.kadencethemes.com/virtue/author/britner/" class="fn" rel="author">Benjamin Ritner</a>'
 																+'</span> <i class="icon-user"></i> </span> <span class="kad-hidepostauthortop"> | </span> <span class="postedintop" data-toggle="tooltip" data-placement="top" data-original-title="Photos&nbsp;"><i class="icon-folder-open"></i></span> <span class="kad-hidepostedin">|</span> <span class="postcommentscount" data-toggle="tooltip" data-placement="top" data-original-title="0"> <i class="icon-comments-alt"></i> </span></div> </header><div class="entry-content">'
-														+'<p>'+data.recent[i].Content+'... <a href="">READ MORE</a></p>'
+														+'<p>'+data.recent[i].Content+'... <a href="/topic/'+data.recent[i].Id+'">READ MORE</a></p>'
 													+'</div> <footer> </footer></div></div> </article></div>';
 											}
 										}
@@ -290,10 +290,10 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 							console.log(data.recent.length)
 							str="";
 							for(i=0;i<data.recent.length;i++){
-								if(!data.recent[i].Images){
+								if(data.recent[i].Images.length==0){
 									continue;
 								} 
-								str+='<a href="" title="'+data.recent[i].Name+'" class="imagegrid_item lightboxhover"><img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="jsygaVpSPKes2SCJeihQ_EM2C5950" /> </a>'
+								str+='<a href="/topic/'+data.recent[i].Id+'" title="'+data.recent[i].Name+'" class="imagegrid_item lightboxhover"><img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="jsygaVpSPKes2SCJeihQ_EM2C5950" /> </a>'
 							}
 							console.log(str)
 							jQuery("#recent_bottom").html(str)
@@ -303,7 +303,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 				</script>
 				<div class="col-md-3 col-sm-6 footercol4">
 					<div class="widget-1 widget-first footer-widget">
-						<aside id="nav_menu-2" class="widget widget_nav_menu"><h3>Resources</h3><ul id="menu-resources" class="menu"><li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="http://themes.kadencethemes.com/virtue/">Home</a></li><li  class="menu-cart menu-item-230"><a href="http://themes.kadencethemes.com/virtue/cart/">Cart</a></li><li  class="menu-contact-us menu-item-231"><a href="http://themes.kadencethemes.com/virtue/contact-us/">Contact Us</a></li><li  class="menu-my-account menu-item-232"><a href="http://themes.kadencethemes.com/virtue/my-account/">My Account</a></li></ul>
+						<aside id="nav_menu-2" class="widget widget_nav_menu"><h3>Resources</h3><ul id="menu-resources" class="menu"><li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="/home">Home</a></li><li  class="menu-cart menu-item-230"><a href="/category">Category</a></li><li  class="menu-contact-us menu-item-231"><a href="/blog">Blog</a></li><li  class="menu-my-account menu-item-232"><a href="/admin">Admin</a></li></ul>
 						</aside>
 					</div>
 				</div>
@@ -311,11 +311,11 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 			<div class="footercredits clearfix">
 				<div class="footernav clearfix">
 					<ul id="menu-resources-1" class="footermenu">
-						<li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="http://themes.kadencethemes.com/virtue/">Home</a>
+						<li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="/home">Home</a>
 						</li>
-						<li  class="menu-cart menu-item-230"><a href="http://themes.kadencethemes.com/virtue/cart/">Cart</a></li>
-						<li  class="menu-contact-us menu-item-231"><a href="http://themes.kadencethemes.com/virtue/contact-us/">Contact Us</a></li>
-						<li  class="menu-my-account menu-item-232"><a href="http://themes.kadencethemes.com/virtue/my-account/">My Account</a></li>
+						<li  class="menu-cart menu-item-230"><a href="/category">Category</a></li>
+						<li  class="menu-contact-us menu-item-231"><a href="/blog">Blog</a></li>
+						<li  class="menu-my-account menu-item-232"><a href="/admin">Admin</a></li>
 					</ul>
 				</div>
 				<p>&copy; 2016 Virtue Theme - WordPress Theme by <a href="http://www.kadencethemes.com/" target="_blank">Kadence Themes</a></p>

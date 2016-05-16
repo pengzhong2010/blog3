@@ -203,10 +203,10 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 										console.log(data.recent.length)
 										str="";
 										for(i=0;i<data.recent.length;i++){
-											if(!data.recent[i].Images){
+											if(data.recent[i].Images.length==0){
 												continue;
 											} 
-											str+='<li class="clearfix postclass"> <a href="" title="'+data.recent[i].Name+'" class="recentpost_featimg"> <img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="photo-1424746219973-8fe3bd07d8e3" /></a> <a href="" title="'+data.recent[i].Name+'" class="recentpost_title">'+data.recent[i].Name+'</a> <span class="recentpost_date">'+data.recent[i].c_m_d_y+'</span></li>'
+											str+='<li class="clearfix postclass"> <a href="/topic/'+data.recent[i].Id+'" title="'+data.recent[i].Name+'" class="recentpost_featimg"> <img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="photo-1424746219973-8fe3bd07d8e3" /></a> <a href="/topic/'+data.recent[i].Id+'" title="'+data.recent[i].Name+'" class="recentpost_title">'+data.recent[i].Name+'</a> <span class="recentpost_date">'+data.recent[i].c_m_d_y+'</span></li>'
 										}
 										console.log(str)
 										jQuery("#recent_right").html(str)
@@ -263,10 +263,10 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 							console.log(data.recent.length)
 							str="";
 							for(i=0;i<data.recent.length;i++){
-								if(!data.recent[i].Images){
+								if(data.recent[i].Images.length==0){
 									continue;
 								} 
-								str+='<a href="" title="'+data.recent[i].Name+'" class="imagegrid_item lightboxhover"><img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="jsygaVpSPKes2SCJeihQ_EM2C5950" /> </a>'
+								str+='<a href="/topic/'+data.recent[i].Id+'" title="'+data.recent[i].Name+'" class="imagegrid_item lightboxhover"><img width="80" height="50" src="'+data.recent[i].Images[0].Url+'" class="attachment-widget-thumb size-widget-thumb wp-post-image" alt="jsygaVpSPKes2SCJeihQ_EM2C5950" /> </a>'
 							}
 							console.log(str)
 							jQuery("#recent_bottom").html(str)
@@ -276,7 +276,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 				</script>
 				<div class="col-md-3 col-sm-6 footercol4">
 					<div class="widget-1 widget-first footer-widget">
-						<aside id="nav_menu-2" class="widget widget_nav_menu"><h3>Resources</h3><ul id="menu-resources" class="menu"><li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="http://themes.kadencethemes.com/virtue/">Home</a></li><li  class="menu-cart menu-item-230"><a href="http://themes.kadencethemes.com/virtue/cart/">Cart</a></li><li  class="menu-contact-us menu-item-231"><a href="http://themes.kadencethemes.com/virtue/contact-us/">Contact Us</a></li><li  class="menu-my-account menu-item-232"><a href="http://themes.kadencethemes.com/virtue/my-account/">My Account</a></li></ul>
+						<aside id="nav_menu-2" class="widget widget_nav_menu"><h3>Resources</h3><ul id="menu-resources" class="menu"><li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="/home">Home</a></li><li  class="menu-cart menu-item-230"><a href="/category">Category</a></li><li  class="menu-contact-us menu-item-231"><a href="/blog">Blog</a></li><li  class="menu-my-account menu-item-232"><a href="/admin">Admin</a></li></ul>
 						</aside>
 					</div>
 				</div>
@@ -284,11 +284,11 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 			<div class="footercredits clearfix">
 				<div class="footernav clearfix">
 					<ul id="menu-resources-1" class="footermenu">
-						<li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="http://themes.kadencethemes.com/virtue/">Home</a>
+						<li  class="menu-home current-menu-item current_page_item menu-item-229"><a href="/home">Home</a>
 						</li>
-						<li  class="menu-cart menu-item-230"><a href="http://themes.kadencethemes.com/virtue/cart/">Cart</a></li>
-						<li  class="menu-contact-us menu-item-231"><a href="http://themes.kadencethemes.com/virtue/contact-us/">Contact Us</a></li>
-						<li  class="menu-my-account menu-item-232"><a href="http://themes.kadencethemes.com/virtue/my-account/">My Account</a></li>
+						<li  class="menu-cart menu-item-230"><a href="/category">Category</a></li>
+						<li  class="menu-contact-us menu-item-231"><a href="/blog">Blog</a></li>
+						<li  class="menu-my-account menu-item-232"><a href="/admin">Admin</a></li>
 					</ul>
 				</div>
 				<p>&copy; 2016 Virtue Theme - WordPress Theme by <a href="http://www.kadencethemes.com/" target="_blank">Kadence Themes</a></p>
