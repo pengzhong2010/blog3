@@ -7,6 +7,7 @@
 	<script src="/static/web/media/js/6045.js" data-minify="1"></script>
 	<script src="/static/web/media/js/1269.js" data-minify="1"></script> 
 	<meta charset="UTF-8">
+	<meta topicid="{{.Topic_id}}" id="topic_id">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Virtue Theme</title>
@@ -112,7 +113,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 	<div id="content" class="container">
 		<div class="row single-article" itemscope="" itemtype="http://schema.org/BlogPosting">
 			<div class="main col-lg-9 col-md-8" role="main" id="topic"> 
-				<article class="post-464 post type-post status-publish format-standard has-post-thumbnail hentry category-photos">
+				<!-- <article class="post-464 post type-post status-publish format-standard has-post-thumbnail hentry category-photos">
 					<div class="imghoverclass postfeat post-single-img" itemprop="image"> 
 						<a href="'+data.topic.Images[0].Url+'" data-rel="lightbox" class="lightboxhover"> 
 							<img src="'+data.topic.Images[0].Url+'" itemprop="image" alt="'+data.topic.Name+'" /> 
@@ -149,7 +150,7 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 						</div>
 					</div> 
 					<footer class="single-footer"> </footer>
-				</article>
+				</article> -->
 			</div>
 			<script>
 				var tid=jQuery("#topic_id").attr("topicid")
