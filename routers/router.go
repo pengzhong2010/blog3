@@ -35,6 +35,7 @@ func init() {
 	beego.Router("/topic/:id([1-9][0-9]*", &web.HtmlController{}, "get:Topic")
 
 	ns := beego.NewNamespace("/admin",
+		beego.NSRouter("/", &admin.TopicController{}, "get:TopicList"),
 		beego.NSRouter("/login", &admin.UserController{}, "get:UserLogin;post:UserLoginDo"),
 		beego.NSRouter("/logout", &admin.UserController{}, "get:UserLogout"),
 		beego.NSNamespace("/user",
@@ -69,7 +70,7 @@ func init() {
 	)
 	beego.AddNamespace(ns)
 
-	beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
+	// beego.InsertFilter("/admin/*", beego.BeforeExec, LoginCheck)
 
 	ns1 := beego.NewNamespace("/api",
 		beego.NSRouter("/banner", &api.WebController{}, "get:GetBanner"),
