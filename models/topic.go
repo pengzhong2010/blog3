@@ -204,7 +204,7 @@ func GetRecent() []*Topic {
 	recent_row, _ := beego.AppConfig.Int("RecentRow")
 	o := orm.NewOrm()
 	var topics []*Topic
-	o.QueryTable("Topic").Filter("deleted", 0).Limit(recent_row).All(&topics)
+	o.QueryTable("Topic").Filter("deleted", 0).OrderBy("-created").Limit(recent_row).All(&topics)
 	// godump.Dump(topics)
 	for _, v := range topics {
 		o.LoadRelated(v, "Images")
