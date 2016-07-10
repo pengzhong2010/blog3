@@ -53,12 +53,12 @@ func (c *TopicController) TopicAddDo() {
 
 	user := c.Ctx.Input.Session("user").(models.User)
 	topicdb := models.Topic{Name: tf.Name, Content: tf.Content, User: &user}
-	res_b, _ := topicdb.TopicAdd()
+	res_b, res_id := topicdb.TopicAdd()
 	if !res_b {
 		c.Ctx.Output.Body([]byte("add faild"))
 		c.StopRun()
 	}
-	c.Ctx.Redirect(302, c.URLFor(".TopicEdit"))
+	c.Ctx.Redirect(302, c.URLFor(".TopicEdit", ":id", res_id))
 }
 
 func (c *TopicController) TopicEdit() {
