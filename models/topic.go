@@ -18,7 +18,7 @@ func GetTopics(cs *[]*Topic, q string) {
 		qs.SetCond(cond2).All(cs)
 		// o.QueryTable("user").Filter("deleted", 0).OrderBy("id").All(users)
 	} else {
-		o.QueryTable("topic").Filter("deleted", 0).Limit(20).OrderBy("-created").All(cs)
+		o.QueryTable("topic").Filter("deleted", 0).Limit(30).OrderBy("-created").All(cs)
 
 	}
 	for _, v := range *cs {
