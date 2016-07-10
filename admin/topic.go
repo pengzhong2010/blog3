@@ -58,7 +58,7 @@ func (c *TopicController) TopicAddDo() {
 		c.Ctx.Output.Body([]byte("add faild"))
 		c.StopRun()
 	}
-	c.Ctx.Redirect(302, c.URLFor(".TopicList"))
+	c.Ctx.Redirect(302, c.URLFor(".TopicEdit"))
 }
 
 func (c *TopicController) TopicEdit() {
