@@ -196,6 +196,9 @@ a{font-family:Lato;line-height:22px;font-weight:normal;font-style:normal;font-si
 										console.log(data)
 										console.log(data.recent.length)
 										str="";
+										if (data.recent.length==0){
+											return;
+										}
 										for(i=0;i<data.recent.length;i++){
 											if(data.recent[i].Images.length==0){
 												continue;
